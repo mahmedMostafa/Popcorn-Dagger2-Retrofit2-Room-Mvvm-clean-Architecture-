@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data class="CastListItemBinding">
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_margin="4dp"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        android:orientation="vertical"
+        app:cardCornerRadius="10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <ImageView
+                android:id="@+id/cast_image_view"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/edward"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/cast_name_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Edward Norten"
+                android:textColor="@color/color_text"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/cast_image_view"
+                app:layout_constraintStart_toStartOf="@id/cast_image_view"
+                app:layout_constraintTop_toBottomOf="@id/cast_image_view" />
+
+            <TextView
+                android:id="@+id/cast_char_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Magnus Carlsen"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@id/cast_image_view"
+                app:layout_constraintStart_toStartOf="@id/cast_image_view"
+                app:layout_constraintTop_toBottomOf="@id/cast_name_text_view" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

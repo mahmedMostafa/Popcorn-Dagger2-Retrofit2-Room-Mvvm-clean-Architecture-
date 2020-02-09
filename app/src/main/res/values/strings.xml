@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Popcorn</string>
+    <string name="watchlist">Watchlist</string>
+    <string name="home">Home</string>
+    <string name="see_more">See More</string>
+    <string name="no_more_results">No more results..</string>
+</resources>
