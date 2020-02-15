@@ -58,9 +58,9 @@ public class DetailsActivity extends DaggerAppCompatActivity {
         hideFadeAndToolbarFlash();
         viewModel = ViewModelProviders.of(this, factory).get(DetailsViewModel.class);
         intent = getIntent();
+        setupRecyclerView();
         movieId = intent.getStringExtra(C.MOVIE_ID_KEY);
         transitionName = intent.getStringExtra(C.IMAGE_ANIMATION_KEY);
-        setupRecyclerView();
         subscribeObservers();
     }
 
@@ -80,10 +80,9 @@ public class DetailsActivity extends DaggerAppCompatActivity {
             @Override
             public void onChanged(Resource<Movie> movieResource) {
                 switch (movieResource.status) {
-
                     case SUCCESS: {
                         Log.d(TAG, "onChanged: Success returning casts");
-                        if (movieResource.data.getCasts() != null) {
+                        if (movieResource.data != null && movieResource.data.getCasts() != null) {
                             adapter.setCasts(movieResource.data.getCasts());
                             casts = movieResource.data.getCasts();
                         }
@@ -93,7 +92,7 @@ public class DetailsActivity extends DaggerAppCompatActivity {
                     case ERROR: {
                         Log.e(TAG, "onChanged: Error retrieving casts" + movieResource.message);
                         // it can be null if the user didn't select the item so the query was never made
-                        if (movieResource.data.getCasts() != null) {
+                        if (movieResource.data != null && movieResource.data.getCasts() != null) {
                             adapter.setCasts(movieResource.data.getCasts());
                             casts = movieResource.data.getCasts();
                         }
@@ -110,7 +109,6 @@ public class DetailsActivity extends DaggerAppCompatActivity {
             @Override
             public void onChanged(Resource<Movie> movieResource) {
                 switch (movieResource.status) {
-
                     case SUCCESS: {
                         setProperties(movieResource);
                         break;
@@ -164,4 +162,5 @@ public class DetailsActivity extends DaggerAppCompatActivity {
             getWindow().setExitTransition(fade);
         }
     }
+
 }

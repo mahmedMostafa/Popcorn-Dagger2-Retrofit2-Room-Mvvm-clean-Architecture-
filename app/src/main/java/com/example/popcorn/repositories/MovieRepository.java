@@ -39,7 +39,6 @@ public class MovieRepository {
     public LiveData<Resource<List<Movie>>> getMovies(final int pageNumber) {
 
         return new NetworkBoundResource<List<Movie>, MoviesApiResponse>() {
-
             @Override
             protected void saveCallResult(@NonNull MoviesApiResponse item) {
                 Log.d(TAG, "saveCallResult: CALLED");

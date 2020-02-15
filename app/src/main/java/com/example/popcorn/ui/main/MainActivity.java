@@ -63,14 +63,16 @@ public class MainActivity extends DaggerAppCompatActivity implements OnItemClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_main);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         hideFadeAndToolbarFlash();
         setupRecyclerView();
         viewModel = ViewModelProviders.of(this, factory).get(MoviesViewModel.class);
+        if(savedInstanceState == null)
+            viewModel.searchMovies(1);
         subscribeObservers();
     }
 
-    private void setupRecyclerView(){
+    private void setupRecyclerView() {
         movies = new ArrayList<>();
         adapter = new MoviesRecyclerAdapter(movies, this, requestManager, preloadSizeProvider);
         binding.recyclerView.setHasFixedSize(true);
@@ -89,7 +91,7 @@ public class MainActivity extends DaggerAppCompatActivity implements OnItemClick
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
-                if(!binding.recyclerView.canScrollVertically(1)){
+                if (!binding.recyclerView.canScrollVertically(1)) {
 
                     viewModel.searchNextPage();
                 }
@@ -100,14 +102,13 @@ public class MainActivity extends DaggerAppCompatActivity implements OnItemClick
 
     private void subscribeObservers() {
         //binding.recyclerView.smoothScrollToPosition(0);
-        viewModel.searchMovies(1);
+
         viewModel.getMovies().observe(this, new Observer<Resource<List<Movie>>>() {
             @Override
             public void onChanged(Resource<List<Movie>> listResource) {
                 Log.d(TAG, "onChanged: STATUS is :" + listResource.status);
                 if (listResource.data != null) {
                     switch (listResource.status) {
-
                         case SUCCESS: {
                             Log.d(TAG, "onChanged: Cache has been refreshed");
                             adapter.hideLoading();
@@ -142,7 +143,7 @@ public class MainActivity extends DaggerAppCompatActivity implements OnItemClick
             }
         });
 
-        Log.d(TAG, "onItemClick: list size is BEFORE: " +movies.size());
+        Log.d(TAG, "onItemClick: list size is BEFORE: " + movies.size());
     }
 
     @Override
@@ -154,17 +155,17 @@ public class MainActivity extends DaggerAppCompatActivity implements OnItemClick
     @Override
     public void onItemClick(int position, ImageView image) {
         Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-        intent.putExtra(C.MOVIE_ID_KEY,String.valueOf(movies.get(position).getId()));
-        intent.putExtra(C.IMAGE_ANIMATION_KEY,ViewCompat.getTransitionName(image));
+        intent.putExtra(C.MOVIE_ID_KEY, String.valueOf(movies.get(position).getId()));
+        intent.putExtra(C.IMAGE_ANIMATION_KEY, ViewCompat.getTransitionName(image));
         //Image Animation
         ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                MainActivity.this,image, ViewCompat.getTransitionName(image)
+                MainActivity.this, image, ViewCompat.getTransitionName(image)
         );
-        startActivity(intent , optionsCompat.toBundle());
+        startActivity(intent, optionsCompat.toBundle());
     }
 
     //this is to hide the toolbar flash when the image animation starts
-    private void hideFadeAndToolbarFlash(){
+    private void hideFadeAndToolbarFlash() {
         Fade fade = new Fade();
         View decor = getWindow().getDecorView();
         fade.excludeTarget(decor.findViewById(R.id.action_bar_container), true);
